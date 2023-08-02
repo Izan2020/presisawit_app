@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "378267874629",
+    "project_id": "presisawit-app",
+    "storage_bucket": "presisawit-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378267874629:android:3425369907841f7c497a2c",
+        "android_client_info": {
+          "package_name": "com.example.presisawit_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378267874629-m5r8rmu8b2eroorcqogrnoj547jt75gk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwNLNfPv4YUIYaFDfK5phROME3Nje2PFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378267874629-m5r8rmu8b2eroorcqogrnoj547jt75gk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "378267874629-kh00ppmvm6gdqsd4q6h9pobbr6s9iv72.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.presisawitApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
