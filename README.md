@@ -1,6 +1,6 @@
 # presisawit_app
 
-A new Flutter project.
+currently work in progress.
 
 ## Getting Started
 
