@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:presisawit_app/interface/theme/app_colors.dart';
 
@@ -27,7 +28,10 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                 ),
                 IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.notifications))
+                    onPressed: () {
+                      FirebaseAuth.instance.signOut();
+                    },
+                    icon: const Icon(Icons.notifications))
               ],
             ),
             Container(height: 12),

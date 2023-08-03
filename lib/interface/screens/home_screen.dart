@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
+import 'package:presisawit_app/interface/pages/fields_page.dart';
 import 'package:presisawit_app/interface/pages/home_page.dart';
 import 'package:presisawit_app/interface/theme/app_colors.dart';
 
@@ -34,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.home),
             ),
             BottomNavigationBarItem(
-              label: 'Blocks',
+              label: 'Fields',
               icon: Icon(Icons.window_rounded),
             ),
             BottomNavigationBarItem(
@@ -46,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             if (_selectedNavbar == 0) HomePage(),
-            if (_selectedNavbar == 1) Text('Blocks'),
+            if (_selectedNavbar == 1) FieldsScreen(),
             if (_selectedNavbar == 2) Text('Settings')
           ],
         ),
