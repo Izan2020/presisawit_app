@@ -42,12 +42,14 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.settings_rounded),
             ),
           ]),
-      body: Column(
-        children: [
-          if (_selectedNavbar == 0) HomePage(),
-          if (_selectedNavbar == 1) Text('Blocks'),
-          if (_selectedNavbar == 2) Text('Settings')
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            if (_selectedNavbar == 0) HomePage(),
+            if (_selectedNavbar == 1) Text('Blocks'),
+            if (_selectedNavbar == 2) Text('Settings')
+          ],
+        ),
       ),
     );
   }

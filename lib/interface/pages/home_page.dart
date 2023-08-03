@@ -17,13 +17,14 @@ class _HomePageState extends State<HomePage> {
         margin: const EdgeInsets.all(24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'Halo, Hamas',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                  'Halo, Pekerja',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                 ),
                 IconButton(
                     onPressed: () {}, icon: const Icon(Icons.notifications))
@@ -31,10 +32,52 @@ class _HomePageState extends State<HomePage> {
             ),
             Container(height: 12),
             Container(
-              height: 120,
+              height: 110,
               decoration: const BoxDecoration(
                   color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
+                  borderRadius: BorderRadius.all(Radius.circular(14))),
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 70,
+                      height: 70,
+                      decoration: BoxDecoration(
+                          color: AppColors.lightGray.withOpacity(0.4),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(200))),
+                      child: const Icon(
+                        Icons.assignment_turned_in_outlined,
+                        size: 34,
+                        color: AppColors.white,
+                      ),
+                    ),
+                    Container(width: 12),
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Sekarang Saatnya',
+                          style: TextStyle(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w300,
+                              height: 0.6),
+                        ),
+                        Text(
+                          'Panen Blok 6',
+                          style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
             ),
             Container(
                 margin: const EdgeInsets.symmetric(vertical: 15),
@@ -93,13 +136,19 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            Container(
-                width: double.maxFinite,
-                height: double.maxFinite,
-                margin: EdgeInsets.only(bottom: 32),
-                child: ListView.builder(itemBuilder: (build, context) {
-                  return Text('data');
-                }))
+            ListView.builder(
+                physics: const ClampingScrollPhysics(), // Add this line
+                shrinkWrap: true, // Add this line
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 3),
+                    height: 64,
+                    decoration: const BoxDecoration(
+                        color: AppColors.lightGray,
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
+                  );
+                })
           ],
         ),
       ),
