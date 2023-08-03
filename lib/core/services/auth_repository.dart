@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+
 import 'package:presisawit_app/core/models/login_credentials.dart';
 import 'package:presisawit_app/core/models/register_response.dart';
-import 'package:presisawit_app/core/models/register_credential.dart';
+import 'package:presisawit_app/core/models/register_credentials.dart';
 
 class AuthRepository {
   final firebaseAuth = FirebaseAuth.instance;
@@ -22,21 +24,27 @@ class AuthRepository {
   // <=========================================================================O
 
   Future<bool> isLoggedIn() async {
-    await _delay(2500);
+    await _delay(3500);
     final auth = await firebaseAuth.authStateChanges().first;
+
     return auth?.uid != null;
   }
 
+  Future<void> logoutUser() async {
+    return firebaseAuth.signOut();
+  }
+
   // O=========================================================================>
-  //  Todo : Register User
+  // ? Register User
   // <=========================================================================O
 
   Future<AuthResponse> registerUser(RegisterCredentials user) async {
     try {
       final response = await firebaseAuth.createUserWithEmailAndPassword(
           email: user.email, password: user.password);
-      if (response.credential != null) {
+      if (response.user?.email != null) {
         usersCollection.doc(response.user?.uid).set({
+          "userId": response.user?.uid,
           "name": user.name,
           "email": user.email,
           "password": user.password,
@@ -50,17 +58,19 @@ class AuthRepository {
           "companyId": user.companyId,
           "fieldId": user.fieldId
         });
+
         return Success();
       } else {
         return Error(message: 'Terjadi Kesalahan Server');
       }
     } on FirebaseAuthException catch (e) {
+      debugPrint('( Register User Exception )\n${e.message}');
       throw Error(message: e.message ?? "Unknown Error Occured");
     }
   }
 
   // O=========================================================================>
-  //  Todo : Sign in User
+  // ? Sign in User
   // <=========================================================================O
 
   Future<AuthResponse> loginUser(LoginCredentials user) async {
@@ -73,15 +83,8 @@ class AuthRepository {
         return Error(message: "Terjadi Kesalahan Server");
       }
     } on FirebaseAuthException catch (e) {
+      debugPrint('( Sign In User Exception )\n${e.message}');
       throw Error(message: e.message ?? "Unknown Error Occured");
     }
-  }
-
-  // O=========================================================================>
-  //  Todo : Log out User
-  // <=========================================================================O
-
-  Future<void> logoutUser() async {
-    return firebaseAuth.signOut();
   }
 }

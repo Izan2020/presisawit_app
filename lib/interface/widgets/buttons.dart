@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:presisawit_app/interface/constants/app_colors.dart';
+import 'package:presisawit_app/interface/theme/app_colors.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String text;

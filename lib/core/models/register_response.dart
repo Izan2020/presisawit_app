@@ -1,9 +1,19 @@
-abstract class AuthResponse {}
+import 'package:equatable/equatable.dart';
 
-class Success extends AuthResponse {}
+abstract class AuthResponse extends Equatable {}
+
+class Success extends AuthResponse {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
 
 class Error extends AuthResponse {
   final String message;
 
   Error({required this.message});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [message];
 }

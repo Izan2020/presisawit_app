@@ -33,6 +33,14 @@ class MyRouterDelegate extends RouterDelegate
       key: _navigatorKey,
       pages: _historyStack,
       onPopPage: (route, result) {
+        final didPop = route.didPop(result);
+        if (!didPop) {
+          return false;
+        }
+
+        isRegister ? _setRegister(false) : null;
+        isLogin ? _setLogin(false) : null;
+
         return true;
       },
     );
@@ -66,10 +74,22 @@ class MyRouterDelegate extends RouterDelegate
               key: splashScreenKey,
               child: RegisterScreen(
                 onPop: () => _setRegister(false),
-                onRegister: () => _setAuthState(CurrentAuth.login),
+                onRegister: () => {
+                  _setRegister(false),
+                  Future.delayed(const Duration(milliseconds: 600)),
+                  _setAuthState(CurrentAuth.success)
+                },
               )),
         if (isLogin)
-          const MaterialPage(key: splashScreenKey, child: LoginScreen()),
+          MaterialPage(
+              key: splashScreenKey,
+              child: LoginScreen(
+                onLogin: () {
+                  _setLogin(false);
+                  Future.delayed(const Duration(milliseconds: 600));
+                  _setAuthState(CurrentAuth.success);
+                },
+              )),
       ];
 
   List<Page> get _loggedInStack =>
