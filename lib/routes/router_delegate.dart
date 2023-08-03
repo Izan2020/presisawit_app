@@ -5,6 +5,7 @@ import 'package:presisawit_app/core/services/auth_repository.dart';
 import 'package:presisawit_app/interface/authentication/auth_screen.dart';
 import 'package:presisawit_app/interface/authentication/login_screen.dart';
 import 'package:presisawit_app/interface/authentication/register_screen.dart';
+import 'package:presisawit_app/interface/authentication/reset_password_screen.dart';
 import 'package:presisawit_app/interface/screens/home_screen.dart';
 import 'package:presisawit_app/interface/screens/splash_screen.dart';
 
@@ -23,6 +24,7 @@ class MyRouterDelegate extends RouterDelegate
   CurrentAuth _currentAuth = CurrentAuth.auth;
   bool isRegister = false;
   bool isLogin = false;
+  bool isResetPassword = false;
 
   // Logged in Stacks
 
@@ -40,6 +42,7 @@ class MyRouterDelegate extends RouterDelegate
 
         isRegister ? _setRegister(false) : null;
         isLogin ? _setLogin(false) : null;
+        isResetPassword ? {_setResetPassword(false), _setLogin(true)} : null;
 
         return true;
       },
@@ -71,7 +74,7 @@ class MyRouterDelegate extends RouterDelegate
               )),
         if (isRegister)
           MaterialPage(
-              key: splashScreenKey,
+              key: registerScreenKey,
               child: RegisterScreen(
                 onPop: () => _setRegister(false),
                 onRegister: () => {
@@ -82,18 +85,24 @@ class MyRouterDelegate extends RouterDelegate
               )),
         if (isLogin)
           MaterialPage(
-              key: splashScreenKey,
+              key: loginScreenKey,
               child: LoginScreen(
                 onLogin: () {
                   _setLogin(false);
                   Future.delayed(const Duration(milliseconds: 600));
                   _setAuthState(CurrentAuth.success);
                 },
+                onForgotPassword: () => _setResetPassword(true),
               )),
+        if (isResetPassword)
+          const MaterialPage(
+            key: resetPasswordScreenKey,
+            child: ResetPasswordScreen(),
+          )
       ];
 
   List<Page> get _loggedInStack =>
-      [const MaterialPage(key: splashScreenKey, child: HomeScreen())];
+      [const MaterialPage(key: homeScreenScreenKey, child: HomeScreen())];
 
   // O=========================================================================>
   // ? Additional Functions
@@ -115,6 +124,11 @@ class MyRouterDelegate extends RouterDelegate
 
   _setLogin(bool value) {
     isLogin = value;
+    notifyListeners();
+  }
+
+  _setResetPassword(bool value) {
+    isResetPassword = value;
     notifyListeners();
   }
 

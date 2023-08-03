@@ -10,7 +10,9 @@ import '../../core/providers/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   final Function onLogin;
-  const LoginScreen({super.key, required this.onLogin});
+  final Function onForgotPassword;
+  const LoginScreen(
+      {super.key, required this.onLogin, required this.onForgotPassword});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -42,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (authProvider.loginUserState == ServiceState.loading) return;
 
     final isSuccess = await authProvider.loginUser(userCredentials);
+    debugPrint('is it success?? $isSuccess');
     if (isSuccess) {
       widget.onLogin();
     } else {
@@ -86,6 +89,17 @@ class _LoginScreenState extends State<LoginScreen> {
               size: TextFieldSize.medium,
             ),
             Container(height: 12),
+            Container(
+              margin: const EdgeInsets.only(bottom: 17, right: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                      onTap: () => widget.onForgotPassword(),
+                      child: const Text('Forgot password?')),
+                ],
+              ),
+            ),
             PrimaryButton(
                 text: loginState == ServiceState.loading
                     ? "Loading..."

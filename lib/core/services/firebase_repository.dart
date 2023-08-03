@@ -16,7 +16,6 @@ class FirebaseRepository {
   Future<CompanyValidate?> getCompanyData(String companyId) async {
     try {
       await _delay(1500);
-      debugPrint('Loading Repo');
       final snapshot = companyDb.doc(companyId).withConverter(
           fromFirestore: CompanyValidate.fromFirestore,
           toFirestore: (CompanyValidate company, _) => company.toFireStore());

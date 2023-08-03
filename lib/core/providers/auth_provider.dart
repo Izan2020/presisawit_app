@@ -117,6 +117,7 @@ class AuthProvider extends ChangeNotifier {
         return true;
       } else {
         _setValidateCompanyState(ServiceState.error);
+        _setMessage('Company not Found');
         return false;
       }
     } catch (e) {

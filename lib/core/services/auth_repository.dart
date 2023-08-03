@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:presisawit_app/core/constants/shared_preferences.dart';
 
 import 'package:presisawit_app/core/models/login_credentials.dart';
 import 'package:presisawit_app/core/models/register_response.dart';
 import 'package:presisawit_app/core/models/register_credentials.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
   final firebaseAuth = FirebaseAuth.instance;
@@ -14,6 +16,10 @@ class AuthRepository {
   // O=========================================================================>
   // ? Additional Functions
   // <=========================================================================O
+
+  Future<SharedPreferences> _sharedPref() async {
+    return await SharedPreferences.getInstance();
+  }
 
   Future<void> _delay(int duration) async {
     return await Future.delayed(Duration(milliseconds: duration));
@@ -39,6 +45,7 @@ class AuthRepository {
   // <=========================================================================O
 
   Future<AuthResponse> registerUser(RegisterCredentials user) async {
+    final sp = await _sharedPref();
     try {
       final response = await firebaseAuth.createUserWithEmailAndPassword(
           email: user.email, password: user.password);
@@ -59,13 +66,24 @@ class AuthRepository {
           "fieldId": user.fieldId
         });
 
+        sp.setString(AppSharedKey.currentUserRole, user.role!);
+        sp.setString(AppSharedKey.currentUserId, response.user!.uid);
+        sp.setString(AppSharedKey.currentUserCompanyId, user.companyId!);
+
         return Success();
       } else {
         return Error(message: 'Terjadi Kesalahan Server');
       }
     } on FirebaseAuthException catch (e) {
       debugPrint('( Register User Exception )\n${e.message}');
-      throw Error(message: e.message ?? "Unknown Error Occured");
+      switch (e.code) {
+        case 'weak-password':
+          throw Error(message: 'Password terlalu Lemah');
+        case 'email-already-in-use':
+          throw Error(message: 'Email ${user.email} telah digunakan');
+        default:
+          throw Error(message: e.message.toString());
+      }
     }
   }
 
@@ -77,14 +95,23 @@ class AuthRepository {
     try {
       final response = await firebaseAuth.signInWithEmailAndPassword(
           email: user.email, password: user.password);
-      if (response.credential != null) {
+      if (response.user?.email != null) {
         return Success();
       } else {
         return Error(message: "Terjadi Kesalahan Server");
       }
     } on FirebaseAuthException catch (e) {
       debugPrint('( Sign In User Exception )\n${e.message}');
-      throw Error(message: e.message ?? "Unknown Error Occured");
+      switch (e.code) {
+        case 'user-not-found':
+          throw Error(message: 'Pengguna tidak Terdaftar');
+        case 'wrong-password':
+          throw Error(message: 'Password salah!');
+        case 'invalid-email':
+          throw Error(message: 'Isi Format Email dengan Benar!');
+        default:
+          throw Error(message: e.message.toString());
+      }
     }
   }
 }
