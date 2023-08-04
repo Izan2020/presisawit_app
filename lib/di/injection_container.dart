@@ -1,12 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:presisawit_app/core/providers/auth_provider.dart';
-import 'package:presisawit_app/core/repository/firebase_repository.dart';
+import 'package:presisawit_app/core/api/firebase_repository.dart';
 import 'package:presisawit_app/core/services/firebase_repository_impl.dart';
 
 import 'package:presisawit_app/routes/router_delegate.dart';
 
-import '../core/repository/auth_repository.dart';
-import '../core/services/auth_repository.dart';
+import '../core/api/auth_repository.dart';
+import '../core/services/auth_repository_impl.dart';
 
 final inject = GetIt.instance;
 

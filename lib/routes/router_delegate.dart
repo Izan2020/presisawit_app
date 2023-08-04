@@ -9,7 +9,7 @@ import 'package:presisawit_app/interface/authentication/reset_password_screen.da
 import 'package:presisawit_app/interface/screens/home_screen.dart';
 import 'package:presisawit_app/interface/screens/splash_screen.dart';
 
-import '../core/repository/auth_repository.dart';
+import '../core/api/auth_repository.dart';
 
 class MyRouterDelegate extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {

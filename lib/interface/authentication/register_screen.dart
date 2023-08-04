@@ -2,7 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:presisawit_app/core/constants/enum.dart';
-import 'package:presisawit_app/core/models/register_credentials.dart';
+import 'package:presisawit_app/core/classes/register_credentials.dart';
 import 'package:presisawit_app/core/providers/auth_provider.dart';
 import 'package:presisawit_app/interface/theme/app_colors.dart';
 import 'package:presisawit_app/interface/widgets/buttons.dart';

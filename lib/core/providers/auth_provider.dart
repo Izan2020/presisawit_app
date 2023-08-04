@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:presisawit_app/core/constants/enum.dart';
-import 'package:presisawit_app/core/models/login_credentials.dart';
-import 'package:presisawit_app/core/models/register_credentials.dart';
-import 'package:presisawit_app/core/models/register_response.dart';
-import 'package:presisawit_app/core/repository/auth_repository.dart';
-import 'package:presisawit_app/core/repository/firebase_repository.dart';
+import 'package:presisawit_app/core/classes/login_credentials.dart';
+import 'package:presisawit_app/core/classes/register_credentials.dart';
+import 'package:presisawit_app/core/classes/logic/data_response.dart';
+import 'package:presisawit_app/core/api/auth_repository.dart';
+import 'package:presisawit_app/core/api/firebase_repository.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseRepository firebaseRepository;

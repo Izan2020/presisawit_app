@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:presisawit_app/core/constants/enum.dart';
-import 'package:presisawit_app/core/models/login_credentials.dart';
+import 'package:presisawit_app/core/classes/login_credentials.dart';
 import 'package:presisawit_app/interface/theme/app_colors.dart';
 import 'package:presisawit_app/interface/widgets/buttons.dart';
 import 'package:presisawit_app/interface/widgets/textfields.dart';
