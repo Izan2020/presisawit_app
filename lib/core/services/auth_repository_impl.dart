@@ -7,6 +7,7 @@ import 'package:presisawit_app/core/classes/login_credentials.dart';
 import 'package:presisawit_app/core/classes/register_credentials.dart';
 import 'package:presisawit_app/core/classes/logic/data_response.dart';
 import 'package:presisawit_app/core/api/auth_repository.dart';
+import 'package:presisawit_app/core/utils/error_parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -81,14 +82,7 @@ class AuthRepositoryImpl implements AuthRepository {
       if (kDebugMode) {
         debugPrint('( Register User Exception )\n${e.message}');
       }
-      switch (e.code) {
-        case 'weak-password':
-          throw const DataError('Password terlalu Lemah');
-        case 'email-already-in-use':
-          throw DataError('Email ${user.email} telah digunakan');
-        default:
-          throw DataError(e.message.toString());
-      }
+      throw authErrors(e.code);
     }
   }
 
@@ -110,16 +104,7 @@ class AuthRepositoryImpl implements AuthRepository {
       if (kDebugMode) {
         debugPrint('( Sign In User Exception )\n${e.message}');
       }
-      switch (e.code) {
-        case 'user-not-found':
-          throw const DataError('Pengguna tidak Terdaftar');
-        case 'wrong-password':
-          throw const DataError('Password salah!');
-        case 'invalid-email':
-          throw const DataError('Isi Format Email dengan Benar!');
-        default:
-          throw DataError(e.message.toString());
-      }
+      throw authErrors(e.code);
     }
   }
 }
