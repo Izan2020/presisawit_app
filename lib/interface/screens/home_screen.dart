@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:presisawit_app/interface/pages/fields_page.dart';
 import 'package:presisawit_app/interface/pages/home_page.dart';
+import 'package:presisawit_app/interface/pages/settings_pages.dart';
 import 'package:presisawit_app/interface/theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -48,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             if (_selectedNavbar == 0) HomePage(),
             if (_selectedNavbar == 1) FieldsScreen(),
-            if (_selectedNavbar == 2) Text('Settings')
+            if (_selectedNavbar == 2) SettingsPage()
           ],
         ),
       ),
