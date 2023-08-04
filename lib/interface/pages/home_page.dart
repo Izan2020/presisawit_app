@@ -151,6 +151,49 @@ class _HomePageState extends State<HomePage> {
                     decoration: const BoxDecoration(
                         color: AppColors.lightGray,
                         borderRadius: BorderRadius.all(Radius.circular(8))),
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 42,
+                                height: 42,
+                                decoration: BoxDecoration(
+                                    color: AppColors.green.withOpacity(0.4),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: Icon(
+                                  Icons.local_fire_department_rounded,
+                                  color: AppColors.green,
+                                ),
+                              ),
+                              Container(width: 8),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'HAMAS AZIZAN',
+                                    style: TextStyle(
+                                        color: AppColors.gray, fontSize: 10),
+                                  ),
+                                  Text(
+                                    'Panen sawit di Blok 002',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          Text('13:12')
+                        ],
+                      ),
+                    ),
                   );
                 })
           ],

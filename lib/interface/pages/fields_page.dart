@@ -55,23 +55,47 @@ class _FieldsScreenState extends State<FieldsScreen> {
                     return Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.all(16),
+                          margin: const EdgeInsets.all(16),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                height: 52,
-                                width: 52,
-                                decoration: BoxDecoration(
-                                    color: AppColors.secondaryColor,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(12))),
+                                width: 12,
                               ),
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'KODE KEBUN 001',
+                                    style: TextStyle(
+                                        fontSize: 8,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.darkGray),
+                                  ),
+                                  Container(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    'Kebun Satu',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w700),
+                                  ),
+                                  Text(
+                                    'Kebun Satu',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 13),
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ),
                         Divider(
+                          thickness: 1,
                           height: 1.4,
+                          color: AppColors.white,
                         )
                       ],
                     );
