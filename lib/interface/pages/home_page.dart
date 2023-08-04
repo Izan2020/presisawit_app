@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                 Flexible(
                   flex: 1,
                   child: Container(
-                    height: 120,
+                    height: 80,
                     decoration: const BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -105,6 +105,29 @@ class _HomePageState extends State<HomePage> {
                         ],
                         color: AppColors.white,
                         borderRadius: BorderRadius.all(Radius.circular(13))),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 12),
+                      child: const Row(
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'TASKS TODAY',
+                                style: TextStyle(
+                                    color: AppColors.gray, fontSize: 11),
+                              ),
+                              Text(
+                                '192',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 24),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 Container(
@@ -113,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                 Flexible(
                   flex: 1,
                   child: Container(
-                    height: 120,
+                    height: 80,
                     decoration: const BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -123,27 +146,60 @@ class _HomePageState extends State<HomePage> {
                         ],
                         color: AppColors.white,
                         borderRadius: BorderRadius.all(Radius.circular(13))),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 12),
+                      child: const Row(
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'TASKS TODAY',
+                                style: TextStyle(
+                                    color: AppColors.gray, fontSize: 11),
+                              ),
+                              Text(
+                                '192',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 24),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],
             ),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 8),
+              margin: const EdgeInsets.symmetric(vertical: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
                     'Recent Tasks',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.sort))
+                  GestureDetector(
+                    onTap: () {},
+                    child: const Text(
+                      'More',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.primaryColor),
+                    ),
+                  ),
                 ],
               ),
             ),
             ListView.builder(
                 physics: const ClampingScrollPhysics(), // Add this line
                 shrinkWrap: true, // Add this line
-                itemCount: 4,
+                itemCount: 5,
                 itemBuilder: (context, index) {
                   return Container(
                     margin: const EdgeInsets.symmetric(vertical: 3),
@@ -152,7 +208,7 @@ class _HomePageState extends State<HomePage> {
                         color: AppColors.lightGray,
                         borderRadius: BorderRadius.all(Radius.circular(8))),
                     child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 12),
+                      margin: const EdgeInsets.symmetric(horizontal: 12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -164,8 +220,8 @@ class _HomePageState extends State<HomePage> {
                                 height: 42,
                                 decoration: BoxDecoration(
                                     color: AppColors.green.withOpacity(0.4),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
                                 child: Icon(
                                   Icons.local_fire_department_rounded,
                                   color: AppColors.green,
