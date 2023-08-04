@@ -3,13 +3,14 @@ import 'package:presisawit_app/core/constants/enum.dart';
 import 'package:presisawit_app/core/models/login_credentials.dart';
 import 'package:presisawit_app/core/models/register_credentials.dart';
 import 'package:presisawit_app/core/models/register_response.dart';
-import 'package:presisawit_app/core/services/auth_repository.dart';
-import 'package:presisawit_app/core/services/firebase_repository.dart';
+import 'package:presisawit_app/core/usecases/auth_usecases.dart';
+
+import 'package:presisawit_app/core/usecases/firebase_usescases.dart';
 
 class AuthProvider extends ChangeNotifier {
-  final FirebaseRepository firebaseRepository;
-  final AuthRepository authRepository;
-  AuthProvider(this.firebaseRepository, this.authRepository);
+  final FirebaseUsecases firebaseUsecases;
+  final AuthUsecases authUsecases;
+  AuthProvider({required this.authUsecases, required this.firebaseUsecases});
 
   String? _message;
   String? get message => _message;
@@ -57,18 +58,18 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> loginUser(LoginCredentials user) async {
     try {
       _setLoginUserState(ServiceState.loading);
-      final snapshot = await authRepository.loginUser(user);
+      final snapshot = await authUsecases.loginUser(user);
 
-      if (snapshot == Success()) {
+      if (snapshot is DataSuccess) {
         _setLoginUserState(ServiceState.success);
         return true;
       } else {
         _setLoginUserState(ServiceState.error);
         return false;
       }
-    } on Error catch (e) {
+    } on DataError catch (e) {
       _setLoginUserState(ServiceState.error);
-      _setMessage(e.message);
+      _setMessage(e.error);
       return false;
     }
   }
@@ -82,9 +83,9 @@ class AuthProvider extends ChangeNotifier {
   ) async {
     try {
       _setRegisterUserState(ServiceState.loading);
-      final snapshot = await authRepository.registerUser(user);
+      final snapshot = await authUsecases.regsiterUser(user);
       debugPrint(snapshot.toString());
-      if (snapshot == Success()) {
+      if (snapshot is DataSuccess) {
         _setRegisterUserState(ServiceState.success);
 
         return true;
@@ -93,10 +94,10 @@ class AuthProvider extends ChangeNotifier {
 
         return false;
       }
-    } on Error catch (e) {
+    } on DataError catch (e) {
       debugPrint('Authentication Error 2');
       _setRegisterUserState(ServiceState.error);
-      _setMessage(e.message);
+      _setMessage(e.error);
       return false;
     }
   }
@@ -109,10 +110,10 @@ class AuthProvider extends ChangeNotifier {
     try {
       if (companyId == "") return false;
       _setValidateCompanyState(ServiceState.loading);
-      final snapshot = await firebaseRepository.getCompanyData(companyId);
-      if (snapshot?.name != null) {
+      final snapshot = await firebaseUsecases.validateCompanyId(companyId);
+      if (snapshot is DataSuccess) {
         _setValidateCompanyState(ServiceState.success);
-        _setMessage('${snapshot?.name} ✓');
+        _setMessage('${snapshot.data?.name} ✓');
         return true;
       } else {
         _setValidateCompanyState(ServiceState.error);

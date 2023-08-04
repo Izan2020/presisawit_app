@@ -1,19 +1,13 @@
-import 'package:equatable/equatable.dart';
-
-abstract class AuthResponse extends Equatable {}
-
-class Success extends AuthResponse {
-  @override
-  // TODO: implement props
-  List<Object?> get props => [];
+abstract class DataState<T> {
+  final T? data;
+  final String? error;
+  const DataState({this.data, this.error});
 }
 
-class Error extends AuthResponse {
-  final String message;
+class DataSuccess<T> extends DataState<T> {
+  const DataSuccess(T data) : super(data: data);
+}
 
-  Error({required this.message});
-
-  @override
-  // TODO: implement props
-  List<Object?> get props => [message];
+class DataError<T> extends DataState<T> {
+  const DataError(String error) : super(error: error);
 }

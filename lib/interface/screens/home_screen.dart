@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:presisawit_app/interface/pages/fields_page.dart';
@@ -32,24 +31,24 @@ class _HomeScreenState extends State<HomeScreen> {
           currentIndex: _selectedNavbar,
           items: const [
             BottomNavigationBarItem(
-              label: 'Home',
+              label: 'Beranda',
               icon: Icon(Icons.home),
             ),
             BottomNavigationBarItem(
-              label: 'Fields',
+              label: 'Kebun',
               icon: Icon(Icons.window_rounded),
             ),
             BottomNavigationBarItem(
-              label: 'Settings',
+              label: 'Pengaturan',
               icon: Icon(Icons.settings_rounded),
             ),
           ]),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            if (_selectedNavbar == 0) HomePage(),
-            if (_selectedNavbar == 1) FieldsScreen(),
-            if (_selectedNavbar == 2) SettingsPage()
+            if (_selectedNavbar == 0) const HomePage(),
+            if (_selectedNavbar == 1) const FieldsScreen(),
+            if (_selectedNavbar == 2) const SettingsPage()
           ],
         ),
       ),

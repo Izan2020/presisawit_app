@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:presisawit_app/core/constants/enum.dart';
 import 'package:presisawit_app/core/constants/value_keys.dart';
-import 'package:presisawit_app/core/services/auth_repository.dart';
+
 import 'package:presisawit_app/interface/authentication/auth_screen.dart';
 import 'package:presisawit_app/interface/authentication/login_screen.dart';
 import 'package:presisawit_app/interface/authentication/register_screen.dart';
 import 'package:presisawit_app/interface/authentication/reset_password_screen.dart';
 import 'package:presisawit_app/interface/screens/home_screen.dart';
 import 'package:presisawit_app/interface/screens/splash_screen.dart';
+
+import '../core/repository/auth_repository.dart';
 
 class MyRouterDelegate extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {

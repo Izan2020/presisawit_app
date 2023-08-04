@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:presisawit_app/core/constants/shared_preferences.dart';
 
 import 'package:presisawit_app/core/models/login_credentials.dart';
-import 'package:presisawit_app/core/models/register_response.dart';
 import 'package:presisawit_app/core/models/register_credentials.dart';
+import 'package:presisawit_app/core/models/register_response.dart';
+import 'package:presisawit_app/core/repository/auth_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthRepository {
+class AuthRepositoryImpl implements AuthRepository {
   final firebaseAuth = FirebaseAuth.instance;
   final usersCollection = FirebaseFirestore.instance.collection("users");
   final companyCollection = FirebaseFirestore.instance.collection("company");
@@ -44,7 +45,7 @@ class AuthRepository {
   // ? Register User
   // <=========================================================================O
 
-  Future<AuthResponse> registerUser(RegisterCredentials user) async {
+  Future<DataState> registerUser(RegisterCredentials user) async {
     final sp = await _sharedPref();
     try {
       final response = await firebaseAuth.createUserWithEmailAndPassword(
@@ -70,19 +71,21 @@ class AuthRepository {
         sp.setString(AppSharedKey.currentUserId, response.user!.uid);
         sp.setString(AppSharedKey.currentUserCompanyId, user.companyId!);
 
-        return Success();
+        return DataSuccess(response);
       } else {
-        return Error(message: 'Terjadi Kesalahan Server');
+        return const DataError('Terjadi Kesalahan Server');
       }
     } on FirebaseAuthException catch (e) {
-      debugPrint('( Register User Exception )\n${e.message}');
+      if (kDebugMode) {
+        debugPrint('( Register User Exception )\n${e.message}');
+      }
       switch (e.code) {
         case 'weak-password':
-          throw Error(message: 'Password terlalu Lemah');
+          throw const DataError('Password terlalu Lemah');
         case 'email-already-in-use':
-          throw Error(message: 'Email ${user.email} telah digunakan');
+          throw DataError('Email ${user.email} telah digunakan');
         default:
-          throw Error(message: e.message.toString());
+          throw DataError(e.message.toString());
       }
     }
   }
@@ -91,26 +94,28 @@ class AuthRepository {
   // ? Sign in User
   // <=========================================================================O
 
-  Future<AuthResponse> loginUser(LoginCredentials user) async {
+  Future<DataState> loginUser(LoginCredentials user) async {
     try {
       final response = await firebaseAuth.signInWithEmailAndPassword(
           email: user.email, password: user.password);
       if (response.user?.email != null) {
-        return Success();
+        return DataSuccess(response);
       } else {
-        return Error(message: "Terjadi Kesalahan Server");
+        return const DataError("Terjadi Kesalahan Server");
       }
     } on FirebaseAuthException catch (e) {
-      debugPrint('( Sign In User Exception )\n${e.message}');
+      if (kDebugMode) {
+        debugPrint('( Sign In User Exception )\n${e.message}');
+      }
       switch (e.code) {
         case 'user-not-found':
-          throw Error(message: 'Pengguna tidak Terdaftar');
+          throw const DataError('Pengguna tidak Terdaftar');
         case 'wrong-password':
-          throw Error(message: 'Password salah!');
+          throw const DataError('Password salah!');
         case 'invalid-email':
-          throw Error(message: 'Isi Format Email dengan Benar!');
+          throw const DataError('Isi Format Email dengan Benar!');
         default:
-          throw Error(message: e.message.toString());
+          throw DataError(e.message.toString());
       }
     }
   }
