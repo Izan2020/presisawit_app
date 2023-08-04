@@ -3,14 +3,14 @@ import 'package:presisawit_app/core/constants/enum.dart';
 import 'package:presisawit_app/core/models/login_credentials.dart';
 import 'package:presisawit_app/core/models/register_credentials.dart';
 import 'package:presisawit_app/core/models/register_response.dart';
-import 'package:presisawit_app/core/usecases/auth_usecases.dart';
-
-import 'package:presisawit_app/core/usecases/firebase_usescases.dart';
+import 'package:presisawit_app/core/repository/auth_repository.dart';
+import 'package:presisawit_app/core/repository/firebase_repository.dart';
 
 class AuthProvider extends ChangeNotifier {
-  final FirebaseUsecases firebaseUsecases;
-  final AuthUsecases authUsecases;
-  AuthProvider({required this.authUsecases, required this.firebaseUsecases});
+  final FirebaseRepository firebaseRepository;
+  final AuthRepository authRepository;
+  AuthProvider(
+      {required this.firebaseRepository, required this.authRepository});
 
   String? _message;
   String? get message => _message;
@@ -58,7 +58,7 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> loginUser(LoginCredentials user) async {
     try {
       _setLoginUserState(ServiceState.loading);
-      final snapshot = await authUsecases.loginUser(user);
+      final snapshot = await authRepository.loginUser(user);
 
       if (snapshot is DataSuccess) {
         _setLoginUserState(ServiceState.success);
@@ -83,7 +83,7 @@ class AuthProvider extends ChangeNotifier {
   ) async {
     try {
       _setRegisterUserState(ServiceState.loading);
-      final snapshot = await authUsecases.regsiterUser(user);
+      final snapshot = await authRepository.registerUser(user);
       debugPrint(snapshot.toString());
       if (snapshot is DataSuccess) {
         _setRegisterUserState(ServiceState.success);
@@ -110,7 +110,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       if (companyId == "") return false;
       _setValidateCompanyState(ServiceState.loading);
-      final snapshot = await firebaseUsecases.validateCompanyId(companyId);
+      final snapshot = await firebaseRepository.getCompanyData(companyId);
       if (snapshot is DataSuccess) {
         _setValidateCompanyState(ServiceState.success);
         _setMessage('${snapshot.data?.name} ✓');
