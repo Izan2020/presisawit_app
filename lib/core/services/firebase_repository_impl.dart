@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/foundation.dart';
-import 'package:presisawit_app/core/models/company_response.dart';
-import 'package:presisawit_app/core/models/register_response.dart';
-import 'package:presisawit_app/core/repository/firebase_repository.dart';
+import 'package:presisawit_app/core/classes/models/company_response.dart';
+import 'package:presisawit_app/core/classes/logic/data_response.dart';
+import 'package:presisawit_app/core/api/firebase_repository.dart';
 
 class FirebaseRepositoryImpl implements FirebaseRepository {
   final companyDb = FirebaseFirestore.instance.collection('company');
