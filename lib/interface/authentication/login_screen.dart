@@ -27,15 +27,16 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> loginUser() async {
     final userCredentials = LoginCredentials(
         email: _emailController.text, password: _passwordController.text);
+    final validation = userCredentials.validateCredentials();
+    if (validation != null) {
+      showSnackbar(context, validation, SnackBars.warning);
+      return;
+    }
 
-    showSnackbar(context, userCredentials.validateCredentials() ?? "",
-        SnackBars.warning);
-
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final authProvider = context.read<AuthProvider>();
     if (authProvider.loginUserState == ServiceState.loading) return;
 
     final isSuccess = await authProvider.loginUser(userCredentials);
-    debugPrint('is it success?? test $isSuccess');
     if (isSuccess) {
       widget.onLogin();
     } else {
