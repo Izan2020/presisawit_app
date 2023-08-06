@@ -71,7 +71,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       authProvider.clearAllAuthState();
       widget.onRegister();
     } else {
-      AppSnackbars().errorSnackbar(context, authProvider.message ?? "");
+      if (context.mounted) {
+        showSnackbar(context, authProvider.message ?? "", SnackBars.error);
+      }
     }
   }
 

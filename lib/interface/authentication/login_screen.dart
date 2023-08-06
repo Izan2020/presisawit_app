@@ -25,19 +25,11 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isObsecure = true;
 
   Future<void> loginUser() async {
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
     final userCredentials = LoginCredentials(
         email: _emailController.text, password: _passwordController.text);
 
-    if (_emailController.text == "") {
-      AppSnackbars().errorSnackbar(context, "Isi Email anda");
-      return;
-    }
-
-    if (_passwordController.text == "") {
-      AppSnackbars().errorSnackbar(context, "Isi Password Anda");
-      return;
-    }
+    showSnackbar(context, userCredentials.validateCredentials() ?? "",
+        SnackBars.warning);
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.loginUserState == ServiceState.loading) return;
@@ -47,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (isSuccess) {
       widget.onLogin();
     } else {
-      AppSnackbars().errorSnackbar(context, authProvider.message ?? "");
+      showSnackbar(context, authProvider.message ?? "", SnackBars.error);
     }
   }
 
