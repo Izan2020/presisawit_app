@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:presisawit_app/core/classes/models/credential_preferences.dart';
 import 'package:presisawit_app/core/constants/shared_preferences.dart';
-
 import 'package:presisawit_app/core/classes/login_credentials.dart';
 import 'package:presisawit_app/core/classes/register_credentials.dart';
 import 'package:presisawit_app/core/classes/logic/data_response.dart';
@@ -148,7 +147,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final decodedData = CredentialPreferences.fromJson(savedJSON);
       return DataSuccess(decodedData);
     } else {
-      throw const DataError('Unable to get Save Preferences');
+      throw const DataError('Unable to get Saved Preferences');
     }
   }
 }
