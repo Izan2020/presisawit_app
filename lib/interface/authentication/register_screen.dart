@@ -85,11 +85,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       setState(() {
         companyResult = companyName.toString();
       });
-    } else {
-      final companyName = firebaseProvider.message;
-      setState(() {
-        companyResult = companyName.toString();
-      });
     }
   }
 
@@ -132,8 +127,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onChangeCompany: (value) => _validateCompanyID(value),
                   companyIdController: _companyIdController,
                   onTapNext: () {
-                    final messenger = ScaffoldMessenger.of(context);
-
                     // Validate if It's Empty
                     if (_companyIdController.text == "") {
                       return;
@@ -141,9 +134,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Validate if It's Available in Database
                     if (validateCompanyState == ServiceState.loading) return;
                     if (validateCompanyState == ServiceState.error) {
-                      messenger.showSnackBar(SnackBar(
-                          content: Text(
-                              'Perusahaan dengan ID "${_companyIdController.text}" tidak di temukan')));
+                      showSnackbar(
+                          context,
+                          'Perusahaan dengan ID "${_companyIdController.text}" tidak di temukan',
+                          SnackBars.error);
                       return;
                     }
                     _nextStep();
@@ -155,8 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onTapNext: () {
                   // Validate if It's Empty
                   if (_usernameController.text == "") {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Isi Username')));
+                    showSnackbar(context, 'Isi Username', SnackBars.warning);
                     return;
                   }
                   _nextStep();
@@ -168,8 +161,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onTapNext: () {
                   // Validate if It's Empty
                   if (_ktpController.text == "") {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Isi Nomor KTP anda ')));
+                    showSnackbar(context, 'Isi no KTP anda', SnackBars.warning);
                     return;
                   }
                   _nextStep();
@@ -184,19 +176,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onTapNext: () {
                   // Validate if It's Empty
                   if (_emailController.text == "") {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Isi Email anda!')));
+                    showSnackbar(
+                        context, 'Isi no Email anda', SnackBars.warning);
                     return;
                   }
                   if (_phoneNumberController.text == "") {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Isi Nomor Telfon anda!')));
+                    showSnackbar(
+                        context, 'Isi Nomor Telfon anda!', SnackBars.warning);
                     return;
                   }
                   // Validate if It's Valid Email
                   if (!EmailValidator.validate(_emailController.text)) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Email tidak valid!')));
+                    showSnackbar(context, 'Email tidak Valid', SnackBars.error);
                     return;
                   }
 
@@ -220,15 +211,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onTapNext: () {
                   // Validate if It's Empty
                   if (_passwordController.text == "") {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Isi Password Anda')));
+                    showSnackbar(
+                        context, 'Isi password anda', SnackBars.warning);
                     return;
                   }
                   // Confirms Password
                   if (_passwordController.text !=
                       _confirmPasswordController.text) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Konfirmasi Password Anda')));
+                    showSnackbar(context, 'Konfirmasi password anda!',
+                        SnackBars.warning);
                     return;
                   }
 
