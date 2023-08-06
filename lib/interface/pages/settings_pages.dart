@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:presisawit_app/interface/theme/app_colors.dart';
 
@@ -87,45 +88,50 @@ class _SettingsPageState extends State<SettingsPage> {
           _itemSettings('Account', Icons.person, () {}),
           _itemSettings('Notifications', Icons.notifications, () {}),
           _itemSettings('About', Icons.question_mark_outlined, () {}),
-          _itemSettings('Logout', Icons.logout, () {})
+          _itemSettings('Logout', Icons.logout, () {
+            FirebaseAuth.instance.signOut();
+          })
         ],
       ),
     ));
   }
 
   _itemSettings(final String title, final IconData icon, final Function onTap) {
-    return Container(
-      margin: const EdgeInsets.only(top: 8),
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      icon,
-                      size: 20,
-                    ),
-                    Container(
-                      width: 12,
-                    ),
-                    Text(title),
-                  ],
-                ),
-                const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 12,
-                )
-              ],
+    return GestureDetector(
+      onTap: () => onTap(),
+      child: Container(
+        margin: const EdgeInsets.only(top: 8),
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        icon,
+                        size: 20,
+                      ),
+                      Container(
+                        width: 12,
+                      ),
+                      Text(title),
+                    ],
+                  ),
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 12,
+                  )
+                ],
+              ),
             ),
-          ),
-          const Divider(
-            color: AppColors.gray,
-          )
-        ],
+            const Divider(
+              color: AppColors.gray,
+            )
+          ],
+        ),
       ),
     );
   }

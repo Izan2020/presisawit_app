@@ -1,6 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import 'package:presisawit_app/core/providers/auth_provider.dart';
 import 'package:presisawit_app/interface/theme/app_colors.dart';
+import 'package:provider/provider.dart';
+
+import '../../core/utils/string_parser.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,8 +15,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
-  @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final userName =
+        getFirstname(authProvider.currentUserCredentials?.userName ?? "");
+
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.all(24),
@@ -23,15 +30,13 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Halo, Pekerja',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                Text(
+                  'Halo, $userName',
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.w700),
                 ),
                 IconButton(
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut();
-                    },
-                    icon: const Icon(Icons.notifications))
+                    onPressed: () {}, icon: const Icon(Icons.notifications))
               ],
             ),
             Container(height: 12),

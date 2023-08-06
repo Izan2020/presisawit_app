@@ -4,6 +4,9 @@ import 'package:presisawit_app/interface/pages/fields_page.dart';
 import 'package:presisawit_app/interface/pages/home_page.dart';
 import 'package:presisawit_app/interface/pages/settings_pages.dart';
 import 'package:presisawit_app/interface/theme/app_colors.dart';
+import 'package:provider/provider.dart';
+
+import '../../core/providers/auth_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,6 +22,17 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedNavbar = index;
     });
+  }
+
+  getUserCredentials() async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.getUserCredentials();
+  }
+
+  @override
+  void initState() {
+    getUserCredentials();
+    super.initState();
   }
 
   @override

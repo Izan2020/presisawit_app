@@ -16,4 +16,9 @@ class AppColors {
   static const Color yellow = Colors.yellow;
   static const Color blue = Colors.blueAccent;
   static const Color green = Colors.green;
+
+  // Indicator Colors
+  static const Color dangerColor = Color.fromARGB(255, 193, 58, 48);
+  static const Color warningColor = Color.fromARGB(255, 222, 168, 6);
+  static const Color successColor = Color.fromARGB(255, 73, 186, 62);
 }

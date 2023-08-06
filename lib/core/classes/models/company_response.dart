@@ -1,14 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-abstract class CompanyResponse {}
-
-class Error extends CompanyResponse {
-  final String message;
-
-  Error({required this.message});
-}
-
-class CompanyValidate extends CompanyResponse {
+class CompanyValidate {
   final String? name;
   CompanyValidate({
     this.name,

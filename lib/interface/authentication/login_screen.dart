@@ -3,6 +3,7 @@ import 'package:presisawit_app/core/constants/enum.dart';
 import 'package:presisawit_app/core/classes/login_credentials.dart';
 import 'package:presisawit_app/interface/theme/app_colors.dart';
 import 'package:presisawit_app/interface/widgets/buttons.dart';
+import 'package:presisawit_app/interface/widgets/snackbars.dart';
 import 'package:presisawit_app/interface/widgets/textfields.dart';
 import 'package:provider/provider.dart';
 
@@ -29,14 +30,12 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text, password: _passwordController.text);
 
     if (_emailController.text == "") {
-      scaffoldMessenger
-          .showSnackBar(const SnackBar(content: Text('Isi Email anda !')));
+      AppSnackbars().errorSnackbar(context, "Isi Email anda");
       return;
     }
 
     if (_passwordController.text == "") {
-      scaffoldMessenger
-          .showSnackBar(const SnackBar(content: Text('Isi Password anda !')));
+      AppSnackbars().errorSnackbar(context, "Isi Password Anda");
       return;
     }
 
@@ -44,12 +43,11 @@ class _LoginScreenState extends State<LoginScreen> {
     if (authProvider.loginUserState == ServiceState.loading) return;
 
     final isSuccess = await authProvider.loginUser(userCredentials);
-    debugPrint('is it success?? $isSuccess');
+    debugPrint('is it success?? test $isSuccess');
     if (isSuccess) {
       widget.onLogin();
     } else {
-      scaffoldMessenger.showSnackBar(
-          SnackBar(content: Text(authProvider.message ?? "Unknown Error")));
+      AppSnackbars().errorSnackbar(context, authProvider.message ?? "");
     }
   }
 

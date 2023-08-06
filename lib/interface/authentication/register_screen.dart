@@ -6,6 +6,7 @@ import 'package:presisawit_app/core/classes/register_credentials.dart';
 import 'package:presisawit_app/core/providers/auth_provider.dart';
 import 'package:presisawit_app/interface/theme/app_colors.dart';
 import 'package:presisawit_app/interface/widgets/buttons.dart';
+import 'package:presisawit_app/interface/widgets/snackbars.dart';
 import 'package:presisawit_app/interface/widgets/textfields.dart';
 import 'package:provider/provider.dart';
 
@@ -48,7 +49,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _registerUser() async {
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
     final userCredentials = RegisterCredentials(
         name: _usernameController.text,
         email: _emailController.text,
@@ -71,8 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       authProvider.clearAllAuthState();
       widget.onRegister();
     } else {
-      scaffoldMessenger.showSnackBar(
-          SnackBar(content: Text(authProvider.message ?? "Unknown Error")));
+      AppSnackbars().errorSnackbar(context, authProvider.message ?? "");
     }
   }
 
@@ -135,8 +134,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                     // Validate if It's Empty
                     if (_companyIdController.text == "") {
-                      messenger.showSnackBar(const SnackBar(
-                          content: Text('Isi ID Perusahaan Anda.')));
                       return;
                     }
                     // Validate if It's Available in Database

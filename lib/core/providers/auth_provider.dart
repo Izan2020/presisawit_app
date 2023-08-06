@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:presisawit_app/core/classes/models/credential_preferences.dart';
 import 'package:presisawit_app/core/constants/enum.dart';
 import 'package:presisawit_app/core/classes/login_credentials.dart';
 import 'package:presisawit_app/core/classes/register_credentials.dart';
@@ -18,6 +19,9 @@ class AuthProvider extends ChangeNotifier {
   ServiceState validateCompanyState = ServiceState.init;
   ServiceState registerUserState = ServiceState.init;
   ServiceState loginUserState = ServiceState.init;
+
+  CredentialPreferences? _currentUserCredentials;
+  CredentialPreferences? get currentUserCredentials => _currentUserCredentials;
 
   // O=========================================================================>
   // ? Additional Functions
@@ -49,6 +53,20 @@ class AuthProvider extends ChangeNotifier {
     validateCompanyState = ServiceState.init;
     registerUserState = ServiceState.init;
     notifyListeners();
+  }
+
+  // O=========================================================================>
+  // ? Get saved user Credentials
+  // <=========================================================================O
+
+  Future<void> getUserCredentials() async {
+    final response = await authRepository.getSavedCredentials();
+    if (response is DataSuccess) {
+      _currentUserCredentials = response.data;
+      notifyListeners();
+    } else {
+      throw Exception(response.error);
+    }
   }
 
   // O=========================================================================>

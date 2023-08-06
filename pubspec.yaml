@@ -49,6 +49,9 @@ dependencies:
   url_launcher: ^6.1.12
   get: ^4.6.5
   get_it: ^7.6.0
+  floor: ^1.4.2
+  build_runner: ^2.4.6
+  json_serializable: ^6.7.1
   
 
 dev_dependencies:

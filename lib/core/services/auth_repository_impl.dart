@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:presisawit_app/core/classes/models/credential_preferences.dart';
 import 'package:presisawit_app/core/constants/shared_preferences.dart';
 
 import 'package:presisawit_app/core/classes/login_credentials.dart';
@@ -70,9 +71,15 @@ class AuthRepositoryImpl implements AuthRepository {
           "fieldId": user.fieldId
         });
 
-        sp.setString(AppSharedKey.currentUserRole, user.role!);
-        sp.setString(AppSharedKey.currentUserId, response.user!.uid);
-        sp.setString(AppSharedKey.currentUserCompanyId, user.companyId!);
+        final savedCredentials = CredentialPreferences(
+                userName: response.user?.displayName,
+                userId: response.user?.uid,
+                companyId: user.companyId,
+                fieldId: user.fieldId,
+                role: user.role)
+            .toJson();
+
+        sp.setString(AppSharedKey.currentUserCredentials, savedCredentials);
 
         return DataSuccess(response);
       } else {
@@ -92,10 +99,31 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<DataState> loginUser(LoginCredentials user) async {
+    final sp = await _sharedPref();
     try {
       final response = await firebaseAuth.signInWithEmailAndPassword(
           email: user.email, password: user.password);
       if (response.user?.email != null) {
+        final credentialResponse = usersCollection
+            .doc(response.user?.uid)
+            .withConverter(
+                fromFirestore: CredentialPreferences.fromFirestore,
+                toFirestore: (CredentialPreferences creds, _) =>
+                    creds.toFirestore());
+        final docSnap = await credentialResponse.get();
+        final data = docSnap.data();
+
+        final savedCredentials = CredentialPreferences(
+                userName: data?.userName,
+                userId: response.user?.uid,
+                companyId: data?.companyId,
+                fieldId: data?.fieldId,
+                role: data?.role)
+            .toJson();
+        if (kDebugMode) {
+          debugPrint(savedCredentials);
+        }
+        sp.setString(AppSharedKey.currentUserCredentials, savedCredentials);
         return DataSuccess(response);
       } else {
         return const DataError("Terjadi Kesalahan Server");
@@ -105,6 +133,22 @@ class AuthRepositoryImpl implements AuthRepository {
         debugPrint('( Sign In User Exception )\n${e.message}');
       }
       throw authErrors(e.code);
+    }
+  }
+
+  // O=========================================================================>
+  // ? Get Saved Credentials
+  // <=========================================================================O
+
+  @override
+  Future<DataState<CredentialPreferences>> getSavedCredentials() async {
+    final sp = await _sharedPref();
+    final savedJSON = sp.getString(AppSharedKey.currentUserCredentials);
+    if (savedJSON != null) {
+      final decodedData = CredentialPreferences.fromJson(savedJSON);
+      return DataSuccess(decodedData);
+    } else {
+      throw const DataError('Unable to get Save Preferences');
     }
   }
 }
