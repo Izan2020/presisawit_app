@@ -24,7 +24,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   Future<void> _delay(int duration) async {
-    return await Future.delayed(Duration(milliseconds: duration));
+    return Future.delayed(Duration(milliseconds: duration));
   }
 
   // O=========================================================================>

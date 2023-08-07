@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
+    final authProvider = context.watch<AuthProvider>();
     final userName =
         getFirstname(authProvider.currentUserCredentials?.userName ?? "");
 

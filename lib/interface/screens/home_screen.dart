@@ -24,14 +24,16 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  getUserCredentials() async {
+  Future<void> getUserCredentials() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     authProvider.getUserCredentials();
   }
 
   @override
   void initState() {
-    getUserCredentials();
+    Future.delayed(const Duration(milliseconds: 300), () {
+      return getUserCredentials();
+    });
     super.initState();
   }
 
