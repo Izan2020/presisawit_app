@@ -20,20 +20,16 @@ class _FieldsScreenState extends State<FieldsScreen> {
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Perkebunan',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-                    ),
-                    Text(
-                      'di Perusahaan Hamas',
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
-                    ),
-                  ],
+                Text(
+                  'Perkebunan',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                ),
+                Text(
+                  'Manage',
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.primaryColor),
                 ),
               ],
             ),
@@ -50,7 +46,7 @@ class _FieldsScreenState extends State<FieldsScreen> {
               child: ListView.builder(
                   physics: const ClampingScrollPhysics(), // Add this line
                   shrinkWrap: true,
-                  itemCount: 12,
+                  itemCount: 3,
                   itemBuilder: ((context, index) {
                     return Column(
                       children: [

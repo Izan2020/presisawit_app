@@ -18,17 +18,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedNavbar = 0;
 
-  _changeSelectedNavBar(int index) {
-    setState(() {
-      _selectedNavbar = index;
-    });
-  }
-
-  Future<void> getUserCredentials() async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    authProvider.getUserCredentials();
-  }
-
   @override
   void initState() {
     Future.delayed(const Duration(milliseconds: 300), () {
@@ -69,5 +58,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  _changeSelectedNavBar(int index) {
+    setState(() {
+      _selectedNavbar = index;
+    });
+  }
+
+  Future<void> getUserCredentials() async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.getUserCredentials();
   }
 }

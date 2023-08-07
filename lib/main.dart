@@ -36,9 +36,12 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MultiProvider(providers: [
-        ChangeNotifierProvider(create: (context) => GetIt.I<AuthProvider>())
-      ], child: Router(routerDelegate: GetIt.I<MyRouterDelegate>())),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => GetIt.I<AuthProvider>())
+        ],
+        child: Router(routerDelegate: GetIt.I<MyRouterDelegate>()),
+      ),
     );
   }
 }

@@ -26,13 +26,13 @@ class _FieldDetailScreenState extends State<FieldDetailScreen> {
                       child: Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.all(16),
+                        margin: const EdgeInsets.all(16),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconButton(
                               onPressed: () => widget.onPop(),
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.arrow_back_ios_new,
                                 color: AppColors.white,
                                 size: 24,
