@@ -1,17 +1,17 @@
 import 'package:flutter/foundation.dart';
+import 'package:presisawit_app/core/classes/models/company_validate.dart';
 import 'package:presisawit_app/core/classes/models/credential_preferences.dart';
 import 'package:presisawit_app/core/constants/enum.dart';
 import 'package:presisawit_app/core/classes/login_credentials.dart';
 import 'package:presisawit_app/core/classes/register_credentials.dart';
 import 'package:presisawit_app/core/classes/logic/data_response.dart';
-import 'package:presisawit_app/core/api/auth_repository.dart';
+
 import 'package:presisawit_app/core/api/firebase_repository.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseRepository firebaseRepository;
-  final AuthRepository authRepository;
-  AuthProvider(
-      {required this.firebaseRepository, required this.authRepository});
+
+  AuthProvider({required this.firebaseRepository});
 
   String? _message;
   String? get message => _message;
@@ -60,7 +60,7 @@ class AuthProvider extends ChangeNotifier {
   // <=========================================================================O
 
   Future<void> getUserCredentials() async {
-    final response = await authRepository.getSavedCredentials();
+    final response = await firebaseRepository.getSavedCredentials();
     if (response is DataSuccess) {
       _currentUserCredentials = response.data;
       notifyListeners();
@@ -76,7 +76,7 @@ class AuthProvider extends ChangeNotifier {
   Future<bool> loginUser(LoginCredentials user) async {
     try {
       _setLoginUserState(ServiceState.loading);
-      final snapshot = await authRepository.loginUser(user);
+      final snapshot = await firebaseRepository.loginUser(user);
 
       if (snapshot is DataSuccess) {
         _setLoginUserState(ServiceState.success);
@@ -101,7 +101,7 @@ class AuthProvider extends ChangeNotifier {
   ) async {
     try {
       _setRegisterUserState(ServiceState.loading);
-      final snapshot = await authRepository.registerUser(user);
+      final snapshot = await firebaseRepository.registerUser(user);
       debugPrint(snapshot.toString());
       if (snapshot is DataSuccess) {
         _setRegisterUserState(ServiceState.success);
@@ -124,24 +124,21 @@ class AuthProvider extends ChangeNotifier {
   // ? Validate Company ID
   // <=========================================================================O
 
-  Future<bool> validateCompanyID(String companyId) async {
+  Future<CompanyValidate?> validateCompanyID(String companyId) async {
     try {
-      if (companyId == "") return false;
+      if (companyId == "") return null;
+      debugPrint("Data Loading");
       _setValidateCompanyState(ServiceState.loading);
-      final snapshot = await firebaseRepository.getCompanyData(companyId);
+      final snapshot = await firebaseRepository.validateCompanyData(companyId);
       if (snapshot is DataSuccess) {
         _setValidateCompanyState(ServiceState.success);
         _setMessage('${snapshot.data?.name} ✓');
-        return true;
-      } else {
-        _setValidateCompanyState(ServiceState.error);
-        _setMessage('Company not Found');
-        return false;
+        return snapshot.data;
       }
     } catch (e) {
       _setValidateCompanyState(ServiceState.error);
-      _setMessage(e.toString());
-      return false;
+      _setMessage('Company not Found');
     }
+    return null;
   }
 }

@@ -30,6 +30,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+
+  String idCompany = "";
   String companyResult = "";
   String emailValidity = "";
   bool isObsecurePassword = true;
@@ -60,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         aboutMe: '',
         createdAt: '',
         ktpNumber: _ktpController.text,
-        companyId: _companyIdController.text);
+        companyId: idCompany);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     if (authProvider.loginUserState == ServiceState.loading) return;
@@ -79,13 +81,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _validateCompanyID(String companyId) async {
     final firebaseProvider = Provider.of<AuthProvider>(context, listen: false);
-    bool isAvailable = await firebaseProvider.validateCompanyID(companyId);
-    if (isAvailable) {
-      final companyName = firebaseProvider.message;
-      setState(() {
-        companyResult = companyName.toString();
-      });
-    }
+    final data = await firebaseProvider.validateCompanyID(companyId);
+    final companyName = firebaseProvider.message;
+
+    setState(() {
+      companyResult = companyName.toString();
+      idCompany = data?.companyId ?? "No ID";
+    });
   }
 
   @override

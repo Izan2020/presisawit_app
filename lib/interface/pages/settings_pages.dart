@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:presisawit_app/core/constants/enum.dart';
+import 'package:presisawit_app/core/providers/company_provider.dart';
 import 'package:presisawit_app/interface/theme/app_colors.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -12,9 +15,11 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
+    final companyProvider = context.watch<CompanyProvider>();
+
     return SafeArea(
         child: Container(
-      margin: EdgeInsets.all(25),
+      margin: const EdgeInsets.all(25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -33,14 +38,14 @@ class _SettingsPageState extends State<SettingsPage> {
             ],
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 12),
-            child: Divider(
+            margin: const EdgeInsets.symmetric(vertical: 12),
+            child: const Divider(
               color: AppColors.gray,
             ),
           ),
           Container(
             height: 90,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 boxShadow: [
@@ -48,37 +53,50 @@ class _SettingsPageState extends State<SettingsPage> {
                       blurRadius: 12, spreadRadius: 0.2, color: AppColors.gray)
                 ]),
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 14),
+              margin: const EdgeInsets.symmetric(horizontal: 14),
               child: Row(
                 children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Perusahaan Hamas',
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      Container(
-                        height: 4,
-                      ),
-                      Text(
-                        'Deskripsi dari Perusahaan Hamas',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w300, fontSize: 12),
-                      )
-                    ],
-                  )
+                  companyProvider.currentCompanyDetailState ==
+                          ServiceState.loading
+                      ? const CircularProgressIndicator(
+                          color: AppColors.primaryColor,
+                        )
+                      : companyProvider.currentCompanyDetailState ==
+                              ServiceState.error
+                          ? Text('Error ${companyProvider.message}')
+                          : Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  companyProvider.currentCompanyDetail?.name ??
+                                      "Company Name",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Container(
+                                  height: 4,
+                                ),
+                                Text(
+                                  companyProvider
+                                          .currentCompanyDetail?.description ??
+                                      "Company Description",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 12),
+                                )
+                              ],
+                            )
                 ],
               ),
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 12),
+            margin: const EdgeInsets.symmetric(vertical: 12),
           ),
           Container(
-              margin: EdgeInsets.symmetric(vertical: 4),
-              child: Text(
+              margin: const EdgeInsets.symmetric(vertical: 4),
+              child: const Text(
                 'GENERAL',
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
@@ -100,6 +118,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return GestureDetector(
       onTap: () => onTap(),
       child: Container(
+        decoration: BoxDecoration(),
         margin: const EdgeInsets.only(top: 8),
         child: Column(
           children: [

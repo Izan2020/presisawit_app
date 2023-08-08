@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presisawit_app/core/api/firebase_repository.dart';
 import 'package:presisawit_app/core/constants/enum.dart';
 import 'package:presisawit_app/core/constants/value_keys.dart';
 
@@ -6,16 +7,15 @@ import 'package:presisawit_app/interface/authentication/auth_screen.dart';
 import 'package:presisawit_app/interface/authentication/login_screen.dart';
 import 'package:presisawit_app/interface/authentication/register_screen.dart';
 import 'package:presisawit_app/interface/authentication/reset_password_screen.dart';
+import 'package:presisawit_app/interface/screens/field_detail_screen.dart';
 import 'package:presisawit_app/interface/screens/home_screen.dart';
 import 'package:presisawit_app/interface/screens/splash_screen.dart';
 
-import '../core/api/auth_repository.dart';
-
 class MyRouterDelegate extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
-  final AuthRepository authRepository;
+  final FirebaseRepository firebaseRepository;
   final GlobalKey<NavigatorState> _navigatorKey;
-  MyRouterDelegate(this.authRepository)
+  MyRouterDelegate(this.firebaseRepository)
       : _navigatorKey = GlobalKey<NavigatorState>() {
     _init();
   }
@@ -29,6 +29,8 @@ class MyRouterDelegate extends RouterDelegate
   bool isResetPassword = false;
 
   // Logged in Stacks
+  String? fieldId;
+  String? taskId;
 
   @override
   Widget build(BuildContext context) {
@@ -103,8 +105,11 @@ class MyRouterDelegate extends RouterDelegate
           )
       ];
 
-  List<Page> get _loggedInStack =>
-      [const MaterialPage(key: homeScreenScreenKey, child: HomeScreen())];
+  List<Page> get _loggedInStack => [
+        const MaterialPage(key: homeScreenScreenKey, child: HomeScreen()),
+        if (fieldId != null)
+          MaterialPage(child: FieldDetailScreen(onPop: () {}))
+      ];
 
   // O=========================================================================>
   // ? Additional Functions
@@ -134,12 +139,22 @@ class MyRouterDelegate extends RouterDelegate
     notifyListeners();
   }
 
+  _setCurrentFieldId(String value) {
+    fieldId = value;
+    notifyListeners();
+  }
+
+  _setCurrentTaskId(String value) {
+    taskId = value;
+    notifyListeners();
+  }
+
   // O=========================================================================>
   // ? Other Functions
   // <=========================================================================O
 
   _init() async {
-    bool? authLogin = await authRepository.isLoggedIn();
+    bool? authLogin = await firebaseRepository.isLoggedIn();
     if (authLogin) {
       _setAuthState(CurrentAuth.success);
     } else {
