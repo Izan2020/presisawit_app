@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:presisawit_app/core/classes/models/field.dart';
 
 import '../../theme/app_colors.dart';
 
 class FieldItem extends StatelessWidget {
-  const FieldItem({super.key});
+  final Field field;
+  const FieldItem({super.key, required this.field});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +23,9 @@ class FieldItem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'KODE KEBUN 001',
-                    style: TextStyle(
+                  Text(
+                    "Kode ${field.code}",
+                    style: const TextStyle(
                         fontSize: 8,
                         fontWeight: FontWeight.w700,
                         color: AppColors.darkGray),
@@ -31,13 +33,14 @@ class FieldItem extends StatelessWidget {
                   Container(
                     height: 8,
                   ),
-                  const Text(
-                    'Kebun Satu',
-                    style: TextStyle(fontWeight: FontWeight.w700),
+                  Text(
+                    field.name ?? "Field Name",
+                    style: const TextStyle(fontWeight: FontWeight.w700),
                   ),
-                  const Text(
-                    'Kebun Satu',
-                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 13),
+                  Text(
+                    field.createdAt ?? "Created At",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 13),
                   ),
                 ],
               )

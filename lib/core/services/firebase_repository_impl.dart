@@ -222,6 +222,7 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
       final docSnap = await snapshot.get();
       final docs = docSnap.docs;
       final fields = docs.map((doc) => doc.data()).toList();
+
       return DataSuccess(fields);
     } on FirebaseException catch (e) {
       if (kDebugMode) {

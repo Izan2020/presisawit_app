@@ -4,9 +4,11 @@ import 'package:presisawit_app/core/classes/logic/data_response.dart';
 import 'package:presisawit_app/core/classes/models/field.dart';
 import 'package:presisawit_app/core/constants/enum.dart';
 
+import '../classes/models/credential_preferences.dart';
+
 class FieldsProvider extends ChangeNotifier {
   final FirebaseRepository firebaseRepository;
-  FieldsProvider(this.firebaseRepository);
+  FieldsProvider({required this.firebaseRepository});
 
   String? message;
 
@@ -33,18 +35,23 @@ class FieldsProvider extends ChangeNotifier {
   // ? Get List of Fields
   // <=========================================================================O
 
-  Future<void> getListOfFields(String companyId) async {
+  Future<void> getListOfFields() async {
     try {
       _setListOfFieldsState(ServiceState.loading);
-      final response = await firebaseRepository.getListOfFields(companyId);
+      await Future.delayed(const Duration(milliseconds: 2500));
+      final savedCred = await firebaseRepository.getSavedCredentials();
+      CredentialPreferences savedCreds = savedCred.data;
+      final response =
+          await firebaseRepository.getListOfFields(savedCreds.companyId ?? "");
       if (response is DataSuccess) {
+        _setListOfFieldsState(ServiceState.success);
         _listOfFields = response.data;
       } else {
         _setListOfFieldsState(ServiceState.error);
       }
     } catch (e) {
-      _setMessage(e.toString());
       _setListOfFieldsState(ServiceState.error);
+      _setMessage(e.toString());
     }
   }
 }

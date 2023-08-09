@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:presisawit_app/core/providers/auth_provider.dart';
 import 'package:presisawit_app/core/providers/company_provider.dart';
+import 'package:presisawit_app/core/providers/fields_provider.dart';
 import 'package:presisawit_app/di/injection_container.dart';
 
 import 'package:presisawit_app/firebase_options.dart';
@@ -39,9 +40,11 @@ class _MyAppState extends State<MyApp> {
       ),
       home: MultiProvider(
         providers: [
+          ChangeNotifierProvider(
+              create: (context) => GetIt.I<FieldsProvider>()),
           ChangeNotifierProvider(create: (context) => GetIt.I<AuthProvider>()),
           ChangeNotifierProvider(
-              create: (context) => GetIt.I<CompanyProvider>())
+              create: (context) => GetIt.I<CompanyProvider>()),
         ],
         child: Router(routerDelegate: GetIt.I<MyRouterDelegate>()),
       ),

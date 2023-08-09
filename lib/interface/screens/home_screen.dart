@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:presisawit_app/core/providers/company_provider.dart';
+import 'package:presisawit_app/core/providers/fields_provider.dart';
 
 import 'package:presisawit_app/interface/pages/fields_page.dart';
 import 'package:presisawit_app/interface/pages/home_page.dart';
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(milliseconds: 300), () {
-      getUserCredentials();
+      initialiseDatas();
     });
     super.initState();
   }
@@ -67,11 +68,15 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<void> getUserCredentials() async {
+  Future<void> initialiseDatas() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final companyProvider =
         Provider.of<CompanyProvider>(context, listen: false);
-    authProvider.getUserCredentials();
+    final fieldsProvider = Provider.of<FieldsProvider>(context, listen: false);
+
+    await authProvider.getUserCredentials();
+
     companyProvider.setCurrentCompanyDetails();
+    fieldsProvider.getListOfFields();
   }
 }
