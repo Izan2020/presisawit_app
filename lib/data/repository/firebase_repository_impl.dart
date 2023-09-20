@@ -57,7 +57,7 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
       final result = await remoteDataSource.loginUser(user);
       return DataSuccess(result);
     } on FirebaseAuthException catch (e) {
-      return DataError(e.message ?? "Unknown Error Occured");
+      return DataError(e.message);
     } on SocketException {
       return const DataError('Periksa Internet Anda');
     }
